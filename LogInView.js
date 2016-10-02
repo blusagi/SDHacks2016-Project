@@ -5,6 +5,7 @@ import {
   Text,
   View
 } from 'react-native';
+import SignUpView from './SignUpView.js'
 //import SignUpView from './SignUpView.js';
 import Button from 'react-native-button';
 import { Form, InputField,
@@ -15,41 +16,30 @@ var data;
 class LogInView extends Component {
   _handlePress(){
 
-    var url = 'https://7zil7kqdg4.execute-api.us-east-1.amazonaws.com/dev/createaccount' +
-          '?userid=' + data.username + '&password=' + data.password + '&active=1';
-    console.log(url);
-    fetch(url)
-    .then((response) => response.json())
-      .then((responseJson) => {
-      console.log(responseJson);
+      var url = 'https://viaaorr5hk.execute-api.us-east-1.amazonaws.com/dev/login' +
+            '?userid=' + data.username + '&password=' + data.password + '&active=1';
+      fetch(url)
+      .then((response) => response.json())
+        .then((responseJson) => {
+        tryLogin(responseJson);
+    }
+    )
+    .catch((error) => {
+      console.error(error);
+    });
   }
-  )
-  .catch((error) => {
-    console.error(error);
-  });
-        /*{
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          }
-          body: JSON.stringify(
-            {
 
-            }
-          )
-        })
-        .then((response) => response.json())
-          .then((responseJson) => {
-          console.log(response.json);
-      }
-      )
-      .catch((error) => {
-        console.error(error);
-      });*/
+  tryLogin(loginStatus){
+    if(loginStatus == 0){
+      Alert.alert
+    }
   }
+
   goToCreateAccount(){
-    console.log("We should be changing views here");
+      this.props.navigator.push({
+            title: "Sign Up",
+            component: SignUpView
+        });
   }
   handleFormChange(formData){
     data = formData;
@@ -117,4 +107,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('LogInView', () => LogInView);
+module.exports = LogInView;

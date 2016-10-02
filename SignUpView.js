@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('SignUpView', () => SignUpView);
+module.exports = SignUpView;

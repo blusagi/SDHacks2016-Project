@@ -8,29 +8,42 @@ import {
 } from 'react-native';
 //import SignUpView from './SignUpView.js';
 import Button from 'react-native-button';
-import SignUpView from './SignUpView.js';
+import LogInView from './LogInView.js';
 import { Form, InputField,
         Separator, SwitchField, LinkField ,
         PickerField, DatePickerField
       } from 'react-native-form-generator';
 var data;
 
-/*export default class NavigatorIOSApp extends Component {
+/*class NavigatorIOSApp extends Component {
   render() {
     return (
       <NavigatorIOS
-        renderScene={this.renderScene.bind(this)}
+        //renderScene={this.renderScene.bind(this)}
         initialRoute={{
-          component: SignUpView,
+          component: AwesomeProject,
+          title: 'My Initial Scene',
+        }}
+        style={{flex: 1}}
+      />
+    );
+  }
+}
+*/
+class AwesomeProject extends Component {
+  render() {
+    return (
+      <NavigatorIOS
+        initialRoute={{
+          component: LogInView,
           title: 'My Initial Scene'
         }}
         style={{flex: 1}}
       />
     );
   }
-}*/
-
-class AwesomeProject extends Component {
+}
+class AwesomeProject2 extends Component {
 
   _handlePress(){
     /*var url = 'https://7zil7kqdg4.execute-api.us-east-1.amazonaws.com/dev/createaccount' +
@@ -131,4 +144,4 @@ const styles = StyleSheet.create({
   }
 });
 
-AppRegistry.registerComponent('AwesomeProject', () => /*NavigatorIOS*/ AwesomeProject );
+AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject /*AwesomeProject*/ );
