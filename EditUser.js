@@ -3,6 +3,7 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
+  AlertIOS,
   View
 } from 'react-native';
 import Button from 'react-native-button';
@@ -14,15 +15,25 @@ import { Form, InputField,
 var data;
 class EditUser extends Component {
   _handlePress(){
-
-    var url = 'https://wimmehea19.execute-api.us-east-1.amazonaws.com/dev/processsignup' +
-          '?userid=' + data.username + '&firstname=' + data.first_name + '&lastname=' + data.last_name +
-          '&gender=' + (data.gender == 'Male' ? 0 : 1) + '&password=' + data.password1 + '&active=1';
-    console.log(url);
+    this.state.editable=false;
+    var url = 'https://wimmehea19.execute-api.us-east-1.amazonaws.com/dev/login' +
+          '?userid=' + this.props.userData.userid + '&password=' + data.password_old;
     fetch(url)
     .then((response) => response.json())
       .then((responseJson) => {
-      console.log(responseJson);
+        this.state.editable = true;
+      if(responseJson > 1){
+        url = 'https://wimmehea19.execute-api.us-east-1.amazonaws.com/dev/createaccount' +
+              '?userid=' + this.props.userData.userid + '&firstname=' + this.props.userData.firstname +
+              '&lastname=' + this.props.userData.lastname + '&gender=' + this.props.userData.gender +
+              '&password=' + data.password_new + '&active=1';
+        fetch(url).then(function(){
+          AlertIOS.alert("Password Successfully Changed!");
+        });
+      }
+      else{
+        AlertIOS.alert("incorrect old password.");
+      }
   }
   )
   .catch((error) => {
@@ -33,43 +44,41 @@ class EditUser extends Component {
     data = formData;
   }
   componentWillMount () {
-    var url = 'https://wimmehea19.execute-api.us-east-1.amazonaws.com/dev/getaccount/' + this.props.username;
-    fetch(url)
-    .then((response) => response.json())
-      .then((responseJson) => {
-      this.state.userData = responseJson;
+    this.state = {
+      editable: true
     }
-    )
-    .catch((error) => {
-      console.error(error);
-    });
   }
 
   render() {
-    //if()
+    console.log(this.state.editable);
     return (
       <View style={styles.container}>
-
       <Form
         ref='registrationForm'
         //onFocus={this.handleFormFocus.bind(this)}
         onChange={this.handleFormChange.bind(this)}
         label="Personal Information"
         style={styles.field}>
+
         <Text style={styles.welcome}>
-          Sign Up
+          Your Info
         </Text>
-          <InputField disabled='true' value='User Name'/>
-          <InputField disabled='true' value='First Name'/>
-          <InputField disabled='true'  value='Last Name'/>
-          <InputField disabled='true' value=''/>
+          <InputField editable={false} label="Username" value={this.props.userData.userid}/>
+          <InputField editable={false} label="First Name" value={this.props.userData.firstname}/>
+          <InputField editable={false}  label='Last Name' value={this.props.userData.lastname}/>
+          <InputField editable={false} label='Gender' value={this.props.userData.gender == 0 ? 'Male' : 'Female'}/>
+          <Separator label='Change Password'/>
+
+          <InputField editable={this.state.editable} secureTextEntry={true} ref="password_old" placeholder="Old Password" />
+          <InputField editable={this.state.editable} secureTextEntry={true} ref="password_new" placeholder="New Password" />
+
       </Form>
-        <Separator />
+
         <Button
           style={{fontSize: 20, color: 'green'}}
           styleDisabled={{color: 'red'}}
           onPress={() => this._handlePress()}>
-          Save Info!
+          Update Password
         </Button>
   </View>
     );

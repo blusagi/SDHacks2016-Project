@@ -47,7 +47,7 @@ class SignUpView extends Component {
         </Text>
           <InputField ref='username' placeholder='User Name'/>
           <InputField secureTextEntry={true} ref='password1' placeholder='Password' />
-          <InputField ref='password2' placeholder='Retype Password' />
+          <InputField secureTextEntry={true} ref='password2' placeholder='Retype Password' />
           <InputField ref='first_name' placeholder='First Name'/>
           <InputField ref='last_name' placeholder='Last Name'/>
           <PickerField ref='gender' label="Gender" placeholder='Gender' value="Male"

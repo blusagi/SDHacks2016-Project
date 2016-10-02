@@ -14,60 +14,28 @@ import { Form, InputField,
         Separator, SwitchField, LinkField ,
         PickerField, DatePickerField
       } from 'react-native-form-generator';
+
+var data;
 class LogInView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggingIn: false,
-      username: "",
-      password: "",
-      remember: false
+      loggingIn: false
     };
+    data = {
+      username: this.props.username,
+      password: this.props.password,
+      remember: this.props.remember
+    }
   }
   componentWillMount () {
-    var self = this;
-    AsyncStorage.multiGet(['username_save', 'password_save'], function(err, result){
-      if(err){
-        console.log(err);
-      }
-      else if(result){
-        var user;
-        var pass;
-        result.map((result, i, store) => {
-           // get at each store's key/value so you can work with it
-           let key = store[i][0];
-           let value = store[i][1];
-           if(key=="username_save"){
-             user = value;
-           }
-           else{
-             pass = value;
-           }
-        });
-        self.setState({username: user, password : pass});
-        console.log(self.state.username);
-      }
 
-      AsyncStorage.getItem('remember_login', function(err, result){
-        if(err){
-          console.log(err);
-        }
-        else if(result){
-
-          if(result=="true"){
-            self.setState({username: user, password : pass, remember : true});
-            self._handlePress();
-          }
-        }
-      });
-      }
-    );
   }
   _handlePress(){
-      if(this.state.username && this.state.password){
-        this.setState({loggingIn : true});
+      if(data.username && data.password){
+        this.state.loggingIn = true;
         var url = 'https://wimmehea19.execute-api.us-east-1.amazonaws.com/dev/login' +
-              '?userid=' + this.state.username + '&password=' + this.state.password + '&active=1';
+              '?userid=' + data.username + '&password=' + data.password;
         fetch(url)
         .then((response) => response.json())
           .then((responseJson) => {
@@ -84,7 +52,7 @@ class LogInView extends Component {
   }
 
   tryLogin(loginStatus){
-    this.setState({loggingIn : false});
+    this.state.loggingIn = false;
     if(loginStatus == 0){
       AlertIOS.alert('No Such Username');
     }
@@ -93,20 +61,29 @@ class LogInView extends Component {
     }
     else{
       try {
-        AsyncStorage.setItem('username_save', this.state.username);
-        AsyncStorage.setItem('password_save', this.state.password);
-        AsyncStorage.setItem('remember_login', this.state.remember ? 'true' : 'false');
+        AsyncStorage.setItem('username_save', data.username);
+        AsyncStorage.setItem('password_save', data.password);
+        AsyncStorage.setItem('remember_login', data.remember ? 'true' : 'false');
       } catch (error) {
         console.log(error);
       }
+      var url = 'https://wimmehea19.execute-api.us-east-1.amazonaws.com/dev/getaccount/' + data.username;
+      fetch(url)
+      .then((response) => response.json())
+        .then((responseJson) => {
+          this.props.navigator.push({
+            title: "We're In",
+            component: EditUser,
+            passProps: {
+              userData : responseJson
+            }
+          })
+      }
+      )
+      .catch((error) => {
+        console.error(error);
+      });
 
-      this.props.navigator.push({
-        title: "We're In",
-        component: EditUser,
-        passProps: {
-          username : this.state.username
-        }
-      })
     }
   }
 
@@ -117,9 +94,7 @@ class LogInView extends Component {
     });
   }
   handleFormChange(formData){
-    this.setState({username : formData.state});
-    this.setState({password : formData.password});
-    this.setState({remember : formData.remember});
+    data = formData;
   }
   render() {
     return (
@@ -134,9 +109,9 @@ class LogInView extends Component {
           <Text style={styles.welcome}>
             Login
           </Text>
-            <InputField disabled={this.state.loggingIn} ref='username' placeholder='User Name' value={this.state.username}/>
-            <InputField disabled={this.state.loggingIn} ref='password' secureTextEntry={true} placeholder='Password' value={this.state.password}/>
-            <SwitchField label='Remember Me' ref="remember" value={this.state.remember}/>
+            <InputField editable={!this.state.loggingIn} ref='username' placeholder='User Name' value={this.props.username}/>
+            <InputField editable={!this.state.loggingIn} ref='password' secureTextEntry={true} placeholder='Password' value={this.props.password}/>
+            <SwitchField label='Remember Me' ref="remember" value={this.props.remember}/>
         </Form>
 
         <Button
