@@ -68,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('EditAddress', () => EditAddress);
+module.exports = EditAddress;

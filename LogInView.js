@@ -3,7 +3,9 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  AlertIOS,
+  AsyncStorage,
 } from 'react-native';
 import SignUpView from './SignUpView.js'
 //import SignUpView from './SignUpView.js';
@@ -14,24 +16,47 @@ import { Form, InputField,
       } from 'react-native-form-generator';
 var data;
 class LogInView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {loggingIn: false};
+  }
   _handlePress(){
-
-      var url = 'https://viaaorr5hk.execute-api.us-east-1.amazonaws.com/dev/login' +
-            '?userid=' + data.username + '&password=' + data.password + '&active=1';
-      fetch(url)
-      .then((response) => response.json())
-        .then((responseJson) => {
-        tryLogin(responseJson);
+      if(data && data.username && data.password){
+        this.state.loggingIn = true;
+        var url = 'https://viaaorr5hk.execute-api.us-east-1.amazonaws.com/dev/login' +
+              '?userid=' + data.username + '&password=' + data.password + '&active=1';
+        fetch(url)
+        .then((response) => response.json())
+          .then((responseJson) => {
+          this.tryLogin(responseJson);
+      }
+      )
+      .catch((error) => {
+        console.error(error);
+      });
     }
-    )
-    .catch((error) => {
-      console.error(error);
-    });
   }
 
   tryLogin(loginStatus){
+    this.state.loggingIn = false;
     if(loginStatus == 0){
-      Alert.alert
+      AlertIOS.alert('No Such Username');
+    }
+    else if(loginStatus == 1){
+      AlertIOS.alert('Password Incorrect');
+    }
+    else{
+      try {
+        AsyncStorage.setItem('username_save', data.username);
+        AsyncStorage.setItem('password_save', data.password);
+      } catch (error) {
+        console.log(error);
+      }
+
+      /*this.props.navigator.push({
+        title: "Sign Up",
+        component: SomethingSomething.js
+      })*/
     }
   }
 
@@ -57,8 +82,8 @@ class LogInView extends Component {
           <Text style={styles.welcome}>
             Login
           </Text>
-            <InputField ref='username' placeholder='User Name'/>
-            <InputField ref='password' placeholder='Password' />
+            <InputField disabled={this.state.loggingIn} ref='username' placeholder='User Name'/>
+            <InputField disabled={this.stateloggingIn} ref='password' placeholder='Password' />
             <SwitchField label='Remember Me' ref="Remember"/>
         </Form>
 
