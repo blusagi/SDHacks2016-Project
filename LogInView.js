@@ -7,8 +7,7 @@ import {
   AlertIOS,
   AsyncStorage,
 } from 'react-native';
-import SignUpView from './SignUpView.js'
-//import SignUpView from './SignUpView.js';
+import SignUpView from './SignUpView.js';
 import Button from 'react-native-button';
 import { Form, InputField,
         Separator, SwitchField, LinkField ,
@@ -61,10 +60,10 @@ class LogInView extends Component {
   }
 
   goToCreateAccount(){
-      this.props.navigator.push({
-            title: "Sign Up",
-            component: SignUpView
-        });
+    this.props.navigator.push({
+      title: "Sign Up",
+      component: SignUpView
+    });
   }
   handleFormChange(formData){
     data = formData;

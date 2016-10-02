@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 //import SignUpView from './SignUpView.js';
 import Button from 'react-native-button';
-import LogInView from './LogInView.js';
+import InitView from './InitView.js';
 import { Form, InputField,
         Separator, SwitchField, LinkField ,
         PickerField, DatePickerField
@@ -35,8 +35,8 @@ class AwesomeProject extends Component {
     return (
       <NavigatorIOS
         initialRoute={{
-          component: LogInView,
-          title: 'My Initial Scene'
+          component: InitView,
+          title:""
         }}
         style={{flex: 1}}
       />
