@@ -103,9 +103,8 @@ class LogInView extends Component {
       this.props.navigator.push({
         title: "We're In",
         component: EditUser,
-        props: {
-          username : this.state.username,
-          password : this.state.password
+        passProps: {
+          username : this.state.username
         }
       })
     }

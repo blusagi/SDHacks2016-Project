@@ -12,7 +12,7 @@ import { Form, InputField,
         PickerField, DatePickerField
       } from 'react-native-form-generator';
 var data;
-class SignUpView extends Component {
+class EditUser extends Component {
   _handlePress(){
 
     var url = 'https://wimmehea19.execute-api.us-east-1.amazonaws.com/dev/processsignup' +
@@ -32,7 +32,21 @@ class SignUpView extends Component {
   handleFormChange(formData){
     data = formData;
   }
+  componentWillMount () {
+    var url = 'https://wimmehea19.execute-api.us-east-1.amazonaws.com/dev/getaccount/' + this.props.username;
+    fetch(url)
+    .then((response) => response.json())
+      .then((responseJson) => {
+      this.state.userData = responseJson;
+    }
+    )
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
   render() {
+    //if()
     return (
       <View style={styles.container}>
 
@@ -45,24 +59,17 @@ class SignUpView extends Component {
         <Text style={styles.welcome}>
           Sign Up
         </Text>
-          <InputField ref='username' placeholder='User Name'/>
-          <InputField secureTextEntry={true} ref='password1' placeholder='Password' />
-          <InputField ref='password2' placeholder='Retype Password' />
-          <InputField ref='first_name' placeholder='First Name'/>
-          <InputField ref='last_name' placeholder='Last Name'/>
-          <PickerField ref='gender' label="Gender" placeholder='Gender' value="Male"
-            options={{
-              male: 'Male',
-              female: 'Female'
-            }}/>
+          <InputField disabled='true' value='User Name'/>
+          <InputField disabled='true' value='First Name'/>
+          <InputField disabled='true'  value='Last Name'/>
+          <InputField disabled='true' value=''/>
       </Form>
-        <Text> </Text>
-        <Text> </Text>
+        <Separator />
         <Button
           style={{fontSize: 20, color: 'green'}}
           styleDisabled={{color: 'red'}}
           onPress={() => this._handlePress()}>
-          Create Account!
+          Save Info!
         </Button>
   </View>
     );
@@ -91,4 +98,4 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = SignUpView;
+module.exports = EditUser;
