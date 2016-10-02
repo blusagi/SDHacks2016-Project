@@ -3,13 +3,12 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Image
 } from 'react-native';
 import Button from 'react-native-button';
 import SignUpView from './SignUpView.js';
 import LogInView  from './LogInView.js';
-
-import { Separator } from 'react-native-form-generator';
 
 class InitView extends Component {
   goToLogIn(){
@@ -26,21 +25,22 @@ class InitView extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
+      <Image style={styles.container} source={require('./racial-diversity.png')}>
         <Button
-          style={{fontSize: 20, color: 'green'}}
+          style={{fontSize: 20, color: 'white', backgroundColor: 'transparent'}}
           styleDisabled={{color: 'red'}}
           onPress={() => this.goToLogIn()}>
           LOG IN
         </Button>
-        <Separator />
+        <View style={styles.viewStyle}>
+        </View>
         <Button
-          style={{fontSize: 20, color: 'green'}}
+          style={{fontSize: 20, color: 'white', backgroundColor: 'transparent'}}
           styleDisabled={{color: 'red'}}
           onPress={() => this.goToCreateAccount()}>
           CREATE AN ACCOUNT
         </Button>
-      </View>
+      </Image>
     );
   }
 }
@@ -51,8 +51,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: '#F5FCFF',
-  }
+    //backgroundColor: '#F5FCFF',
+    width: null,
+    height: null
+  },
+  viewStyle: {
+    height: 30,
+  },
 });
 
 module.exports = InitView;
