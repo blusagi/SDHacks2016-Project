@@ -65,10 +65,13 @@ class MainPage extends Component {
           Gertrude Shillypeak
         </Text>
         <Text style= {styles.welcome}>
-          October 8th, 2016
+          October 8th, 2016, 4:00 PM - 5:00 PM
         </Text>
         <Text style= {styles.welcome}>
-          Distance: 8 Miles
+        8657 Villa La Jolla Drive, La Jolla, CA 92037
+        </Text>
+        <Text style= {styles.welcome}>
+          Distance: .02 Miles (Starbucks)
         </Text>
         <Text style= {styles.welcome}>
           Topics: Professional Pitch
