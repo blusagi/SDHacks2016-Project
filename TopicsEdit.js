@@ -13,20 +13,18 @@ import { Form, InputField,
         PickerField, DatePickerField
       } from 'react-native-form-generator';
 var data;
-class EditAddress extends Component {
+class TopicsEdit extends Component {
   _handlePress(){
-    AsyncStorage.setItem('address1', data.address1 ? data.address1 : "");
-    AsyncStorage.setItem('address2', data.address2 ? data.address2 : "");
-    AsyncStorage.setItem('city', data.city ? data.city : "");
-    AsyncStorage.setItem('state', data.state ? data.state : "");
-    AsyncStorage.setItem('country', data.country ? data.country : "");
+    AsyncStorage.setItem('prof', data.prof ? "true" : "false");
+    AsyncStorage.setItem('social', data.social ? "true" : "false");
+    AsyncStorage.setItem('personal', data.personal ? "true" : "false");
     this.props.navigator.pop();
   }
   handleFormChange(formData){
     data = formData;
   }
   render() {
-    data = this.props.loc;
+    data = this.props.topic;
     return (
       <View style={styles.container}>
         <Form
@@ -35,21 +33,19 @@ class EditAddress extends Component {
           onChange={this.handleFormChange.bind(this)}
           label="Personal Information">
           <Text style={styles.welcome}>
-            Put your location here
+            Select your topics of interest
           </Text>
             <Separator label='Address'/>
-            <InputField ref='address1' placeholder='Address Line 1' value={this.props.loc.address1} defaultValue={this.props.loc.address1}/>
-            <InputField ref='address2' placeholder='Address Line 2' value={this.props.loc.address2} defaultValue={this.props.loc.address3}/>
-            <InputField ref='city' placeholder='City' value={this.props.loc.city} defaultValue={this.props.loc.city}/>
-            <InputField ref='state' placeholder='State'  value={this.props.loc.state} defaultValue={this.props.loc.state}/>
-            <InputField ref='country' placeholder='Country'  value={this.props.loc.country} defaultValue={this.props.loc.country}/>
+            <SwitchField label='Professional Pitch' ref='prof' value={this.props.topic.prof} defaultValue={this.props.topic.prof}/>
+            <SwitchField label='Social Exercise' ref='social' value={this.props.topic.social} defaultValue={this.props.topic.social}/>
+            <SwitchField label='Personal Advice' ref='personal' value={this.props.topic.personal} defaultValue={this.props.topic.personal}/>
         </Form>
         <Separator />
         <Button
           style={{fontSize: 20, color: 'green'}}
           styleDisabled={{color: 'red'}}
           onPress={() => this._handlePress()}>
-          Save Address
+          Save Topics
         </Button>
   </View>
     );
@@ -75,4 +71,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = EditAddress;
+module.exports = TopicsEdit;

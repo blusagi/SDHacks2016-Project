@@ -7,7 +7,7 @@ import {
   Image
 } from 'react-native';
 import Button from 'react-native-button';
-import EditUser from './EditUser.js';
+import EditInfo from './EditInfo.js';
 import RatingsMenu from './RatingsMenu.js'
 import { Form, InputField,
         Separator, SwitchField, LinkField ,
@@ -46,7 +46,7 @@ class MainPage extends Component {
   goToSettings(){
     this.props.navigator.push({
       title: "Settings",
-      component: EditUser,
+      component: EditInfo,
       passProps: {
         userData : this.props.userData
       }
