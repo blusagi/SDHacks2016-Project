@@ -15,7 +15,7 @@ var data;
 class SignUpView extends Component {
   _handlePress(){
 
-    var url = 'https://7zil7kqdg4.execute-api.us-east-1.amazonaws.com/dev/createaccount' +
+    var url = 'https://wimmehea19.execute-api.us-east-1.amazonaws.com/dev/processsignup' +
           '?userid=' + data.username + '&firstname=' + data.first_name + '&lastname=' + data.last_name +
           '&gender=' + (data.gender == 'Male' ? 0 : 1) + '&password=' + data.password1 + '&active=1';
     console.log(url);
@@ -46,7 +46,8 @@ class SignUpView extends Component {
           Sign Up
         </Text>
           <InputField ref='username' placeholder='User Name'/>
-          <InputField ref='password1' placeholder='Password' />
+          <InputField secureTextEntry={true} ref='password1' placeholder='Password' />
+          <InputField ref='password2' placeholder='Retype Password' />
           <InputField ref='first_name' placeholder='First Name'/>
           <InputField ref='last_name' placeholder='Last Name'/>
           <PickerField ref='gender' label="Gender" placeholder='Gender' value="Male"
