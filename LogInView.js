@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import SignUpView from './SignUpView.js';
 import EditUser from './EditUser.js';
+import EditInfo  from './EditInfo.js'
 import Button from 'react-native-button';
 import { Form, InputField,
         Separator, SwitchField, LinkField ,
@@ -72,11 +73,13 @@ class LogInView extends Component {
       .then((response) => response.json())
         .then((responseJson) => {
           this.props.navigator.push({
-            title: "We're In",
+            /*title: "We're In",
             component: EditUser,
             passProps: {
               userData : responseJson
-            }
+            }*/
+            title: "Edit Info",
+            component: EditInfo
           })
       }
       )
