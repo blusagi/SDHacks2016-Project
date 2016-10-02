@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native';
 import Button from 'react-native-button';
-
+import InitView from './InitView.js';
 import { Form, InputField,
         Separator, SwitchField, LinkField ,
         PickerField, DatePickerField
@@ -14,7 +14,7 @@ import { Form, InputField,
 var data;
 class SignUpView extends Component {
   _handlePress(){
-
+    var self = this;
     var url = 'https://wimmehea19.execute-api.us-east-1.amazonaws.com/dev/processsignup' +
           '?userid=' + data.username + '&firstname=' + data.first_name + '&lastname=' + data.last_name +
           '&gender=' + (data.gender == 'Male' ? 0 : 1) + '&password=' + data.password1 + '&active=1';
@@ -22,12 +22,11 @@ class SignUpView extends Component {
     fetch(url)
     .then((response) => response.json())
       .then((responseJson) => {
-      console.log(responseJson);
-  }
-  )
-  .catch((error) => {
-    console.error(error);
-  });
+        this.props.navigator.pop();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
   handleFormChange(formData){
     data = formData;

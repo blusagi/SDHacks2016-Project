@@ -8,8 +8,12 @@ import {
   AsyncStorage
 } from 'react-native';
 import Button from 'react-native-button';
+import LogInView from './LogInView.js';
 import SignUpView from './SignUpView.js';
-import LogInView  from './LogInView.js';
+
+import MainPage from './MainPage.js';
+
+import RatingsMenu from './RatingsMenu.js';
 
 class InitView extends Component {
   goToLogIn(){
@@ -73,9 +77,12 @@ class InitView extends Component {
   }
   render() {
     return (
-      <Image style={styles.container} source={require('./racial-diversity.png')}>
+      <Image style={styles.container} source={require('./welcome.jpg')}>
+      <Text style={{backgroundColor: 'transparent'}}>
+        {'\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n'}
+      </Text>
         <Button
-          style={{fontSize: 20, color: 'white', backgroundColor: 'transparent'}}
+          style={{fontSize: 20, color: '#003B31', backgroundColor: 'transparent'}}
           styleDisabled={{color: 'red'}}
           onPress={() => this.goToLogIn()}>
           LOG IN
@@ -83,7 +90,7 @@ class InitView extends Component {
         <View style={styles.viewStyle}>
         </View>
         <Button
-          style={{fontSize: 20, color: 'white', backgroundColor: 'transparent'}}
+          style={{fontSize: 20, color: '#003B31', backgroundColor: 'transparent'}}
           styleDisabled={{color: 'red'}}
           onPress={() => this.goToCreateAccount()}>
           CREATE AN ACCOUNT
@@ -96,6 +103,7 @@ class InitView extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    //display:flex,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch',

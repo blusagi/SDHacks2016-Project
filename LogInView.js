@@ -8,7 +8,7 @@ import {
   AsyncStorage,
 } from 'react-native';
 import SignUpView from './SignUpView.js';
-import EditUser from './EditUser.js';
+import MainPage from './MainPage.js';
 import Button from 'react-native-button';
 import { Form, InputField,
         Separator, SwitchField, LinkField ,
@@ -72,8 +72,8 @@ class LogInView extends Component {
       .then((response) => response.json())
         .then((responseJson) => {
           this.props.navigator.push({
-            title: "We're In",
-            component: EditUser,
+            title: "",
+            component: MainPage,
             passProps: {
               userData : responseJson
             }
