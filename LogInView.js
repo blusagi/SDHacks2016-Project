@@ -19,6 +19,44 @@ class LogInView extends Component {
   constructor(props) {
     super(props);
     this.state = {loggingIn: false};
+
+        AsyncStorage.multiGet(['username_save', 'password_save'], function(err, result){
+          if(err){
+            console.log(err);
+          }
+          else if(result){
+            var user;
+            var pass;
+            result.map((result, i, store) => {
+             // get at each store's key/value so you can work with it
+             let key = store[i][0];
+             let value = store[i][1];
+             if(key=="username_save"){
+               user = value;
+             }
+             else{
+               pass = value;
+             }
+            });
+            data = {
+              username: user,
+              password: pass
+            }
+            console.log(data.username);
+            console.log(data.password);
+            AsyncStorage.getItem('remember_login', function(err, result){
+              if(err){
+                console.log(err);
+              }
+              else if(result){
+
+                if(result=="true"){
+                  _handlePress();
+                }
+              }
+            })
+          }
+    })
   }
   _handlePress(){
       if(data && data.username && data.password){
@@ -35,6 +73,9 @@ class LogInView extends Component {
         console.error(error);
       });
     }
+    else{
+      AlerIOS.alert('Please input Username and Password');
+    }
   }
 
   tryLogin(loginStatus){
@@ -49,14 +90,15 @@ class LogInView extends Component {
       try {
         AsyncStorage.setItem('username_save', data.username);
         AsyncStorage.setItem('password_save', data.password);
+        AsyncStorage.setItem('remember_login', data.remember ? 'true' : 'false');
       } catch (error) {
         console.log(error);
       }
 
-      /*this.props.navigator.push({
-        title: "Sign Up",
-        component: SomethingSomething.js
-      })*/
+      this.props.navigator.push({
+        title: "We're In",
+        component: SignUpView
+      })
     }
   }
 
@@ -84,7 +126,7 @@ class LogInView extends Component {
           </Text>
             <InputField disabled={this.state.loggingIn} ref='username' placeholder='User Name'/>
             <InputField disabled={this.stateloggingIn} ref='password' placeholder='Password' />
-            <SwitchField label='Remember Me' ref="Remember"/>
+            <SwitchField label='Remember Me' ref="remember"/>
         </Form>
 
         <Button
