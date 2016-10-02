@@ -74,9 +74,7 @@ class LogInView extends Component {
           this.props.navigator.push({
             title: "",
             component: MainPage,
-            passProps: {
-              userData : responseJson
-            }
+
           })
       }
       )
